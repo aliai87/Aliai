@@ -1,13 +1,17 @@
 import streamlit as st
 import google.generativeai as genai
 
-# یہاں اپنی وہ API Key ڈالیں جو آپ نے Google AI Studio سے لی تھی
-genai.configure(api_key="اپنی_API_KEY_یہاں_لکھیں")
+# اپنی Google AI Studio API Key یہاں ڈالیں
+genai.configure(api_key="import os
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])")
 
-st.title("AliAI - آپ کا ذہین ساتھی")
-user_input = st.text_input("اپنا سوال پوچھیں:")
+st.title("AliAI - Your Intelligent Companion")
+user_input = st.text_input("Ask your question:")
 
-if st.button("جواب حاصل کریں"):
-    model = genai.GenerativeModel('gemini-pro')
-    response = model.generate_content(user_input)
-    st.write(response.text)
+if st.button("Get Answer"):
+    if user_input:
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        response = model.generate_content(user_input)
+        st.write(response.text)
+    else:
+        st.warning("Please enter a question first!")
